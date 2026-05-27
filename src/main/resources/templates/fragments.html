@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="topnav(active)">
+    <header class="topbar">
+        <a class="brand" th:href="@{/aggregation}">
+            <span class="brand-mark">DF</span>
+            <span>多源异构数据融合与统计检验分析平台V1.0</span>
+        </a>
+        <nav class="nav-links">
+            <a th:href="@{/aggregation}" th:classappend="${active == 'aggregation'} ? ' active'">数据汇聚</a>
+            <a th:href="@{/fusion}" th:classappend="${active == 'fusion'} ? ' active'">融合处理</a>
+            <a th:href="@{/statistics}" th:classappend="${active == 'statistics'} ? ' active'">统计分析</a>
+            <a th:href="@{/quality}" th:classappend="${active == 'quality'} ? ' active'">核验核查</a>
+            <a th:href="@{/ledger}" th:classappend="${active == 'ledger'} ? ' active'">台账查阅</a>
+        </nav>
+        <div class="top-actions">
+            <button class="icon-btn" type="button" data-open-modal="noticeModal" title="通知公告">铃</button>
+            <a class="icon-btn" th:href="@{/account}" title="账号维护">齿</a>
+            <button class="outline-light" type="button" data-open-modal="logoutModal">退出</button>
+        </div>
+    </header>
+
+    <div class="modal" id="noticeModal" aria-hidden="true">
+        <div class="modal-panel">
+            <div class="modal-head">
+                <h2>通知公告</h2>
+                <button class="icon-btn dark" type="button" data-close-modal>×</button>
+            </div>
+            <div class="notice-list">
+                <article class="notice-item" th:each="notice : ${notices}">
+                    <span class="tag" th:text="${notice.type()}">类型</span>
+                    <h3 th:text="${notice.title()}">标题</h3>
+                    <p th:text="${notice.content()}">内容</p>
+                    <time th:text="${notice.publishTime()}">时间</time>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="logoutModal" aria-hidden="true">
+        <div class="modal-panel small">
+            <div class="modal-head">
+                <h2>确认退出</h2>
+                <button class="icon-btn dark" type="button" data-close-modal>×</button>
+            </div>
+            <p>确认退出当前账号并返回登录页？</p>
+            <form th:action="@{/logout}" method="post" class="modal-actions">
+                <button class="btn ghost" type="button" data-close-modal>取消</button>
+                <button class="btn primary" type="submit">确认退出</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

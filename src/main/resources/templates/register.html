@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 多源异构数据融合平台</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="auth-page">
+<main class="auth-shell">
+    <section class="auth-panel">
+        <div class="auth-brand">
+            <span class="brand-mark">DF</span>
+            <h1>注册本地账号</h1>
+            <p>账号仅保存在本地 SQLite 数据库</p>
+        </div>
+        <div class="alert error" th:if="${error}" th:text="${error}"></div>
+        <form th:action="@{/register}" method="post" class="form-stack">
+            <label>用户名
+                <input name="username" required th:value="${username}">
+            </label>
+            <label>密码
+                <input name="password" type="password" required>
+            </label>
+            <label>确认密码
+                <input name="confirmPassword" type="password" required>
+            </label>
+            <label class="check-line">
+                <input type="checkbox" name="agreed" value="true">
+                <span>同意服务条款与隐私政策</span>
+            </label>
+            <button class="btn primary full" type="submit">注册</button>
+        </form>
+        <div class="auth-links">
+            <a th:href="@{/login}">返回登录</a>
+        </div>
+    </section>
+</main>
+</body>
+</html>

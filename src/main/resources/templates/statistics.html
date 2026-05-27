@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>统计分析</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: topnav('statistics')}"></div>
+<main class="page">
+    <section class="page-head">
+        <div><h1>统计分析</h1><p>基础指标、批次变化、数据源类型和业务分类占比</p></div>
+        <form th:action="@{/statistics}" method="get" class="inline-form">
+            <select name="batchId">
+                <option value="">最新批次</option>
+                <option th:each="batch : ${batches}" th:value="${batch.id()}" th:text="${batch.label()}" th:selected="${summary.batchId() == batch.id()}"></option>
+            </select>
+            <button class="btn secondary" type="submit">切换</button>
+        </form>
+    </section>
+    <div class="alert success" th:if="${message}" th:text="${message}"></div>
+
+    <section class="metric-grid">
+        <article class="metric"><span>总数据量</span><strong th:text="${summary.totalRows()}">0</strong></article>
+        <article class="metric"><span>字段数</span><strong th:text="${summary.fieldCount()}">0</strong></article>
+        <article class="metric"><span>增量数据量</span><strong th:text="${summary.incrementalRows()}">0</strong></article>
+        <article class="metric"><span>空值率</span><strong th:text="${summary.nullRate()} + '%'">0%</strong></article>
+        <article class="metric"><span>重复数</span><strong th:text="${summary.duplicateCount()}">0</strong></article>
+        <article class="metric"><span>质检通过率</span><strong th:text="${summary.qualityPassRate()} + '%'">0%</strong></article>
+    </section>
+
+    <section class="content-grid three">
+        <div class="panel chart-panel">
+            <h2>最近 7 个批次记录数</h2>
+            <div class="chart-canvas-frame"><canvas id="lineChart"></canvas></div>
+        </div>
+        <div class="panel chart-panel">
+            <h2>数据源类型占比</h2>
+            <div class="chart-canvas-frame"><canvas id="sourceChart"></canvas></div>
+        </div>
+        <div class="panel chart-panel">
+            <h2>业务分类占比</h2>
+            <div class="chart-canvas-frame"><canvas id="businessChart"></canvas></div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-head">
+            <h2>导出报表</h2>
+            <form th:action="@{/statistics/export}" method="post" class="inline-form">
+                <input type="hidden" name="batchId" th:value="${summary.batchId()}">
+                <select name="scope"><option value="original">原始数据</option><option value="cleaned">清洗后数据</option><option value="statistics">统计结果</option></select>
+                <select name="format"><option value="csv">CSV</option><option value="xlsx">Excel</option></select>
+                <button class="btn primary" type="submit">导出</button>
+            </form>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>报告</th><th>格式</th><th>创建人</th><th>时间</th><th>下载</th></tr></thead>
+                <tbody>
+                <tr th:each="report : ${reports}">
+                    <td th:text="${report.reportName()}"></td>
+                    <td th:text="${report.exportFormat()}"></td>
+                    <td th:text="${report.createUser()}"></td>
+                    <td th:text="${report.createTime()}"></td>
+                    <td><a class="link-btn" th:href="@{/reports/download/{id}(id=${report.id()})}">下载</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<script th:src="@{/webjars/chart.js/4.4.7/dist/chart.umd.js}"></script>
+<script th:inline="javascript">
+    window.platformCharts = {
+        lineLabels: /*[(${lineLabelsJson})]*/ [],
+        lineRows: /*[(${lineRowsJson})]*/ [],
+        sourceLabels: /*[(${sourceLabelsJson})]*/ [],
+        sourceValues: /*[(${sourceValuesJson})]*/ [],
+        businessLabels: /*[(${businessLabelsJson})]*/ [],
+        businessValues: /*[(${businessValuesJson})]*/ []
+    };
+</script>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

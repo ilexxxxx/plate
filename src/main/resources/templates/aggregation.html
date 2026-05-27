@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据汇聚</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: topnav('aggregation')}"></div>
+<main class="page">
+    <section class="page-head">
+        <div>
+            <h1>数据汇聚</h1>
+            <p>数据源状态、文件批量导入、最近接入日志</p>
+        </div>
+        <div class="head-actions">
+            <button class="btn secondary" type="button" data-open-modal="sourceModal">新增数据源</button>
+            <button class="btn primary" type="button" data-open-modal="importModal">批量导入</button>
+        </div>
+    </section>
+
+    <section class="metric-grid">
+        <article class="metric"><span>数据源数量</span><strong th:text="${summary.sourceCount()}">0</strong></article>
+        <article class="metric"><span>导入批次数</span><strong th:text="${summary.batchCount()}">0</strong></article>
+        <article class="metric"><span>总数据量</span><strong th:text="${summary.recordCount()}">0</strong></article>
+        <article class="metric"><span>字段数量</span><strong th:text="${summary.fieldCount()}">0</strong></article>
+        <article class="metric"><span>质检通过率</span><strong th:text="${summary.qualityPassRate()} + '%'">0%</strong></article>
+    </section>
+
+    <section class="content-grid two">
+        <div class="panel">
+            <div class="panel-head"><h2>数据源状态</h2></div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>名称</th><th>类型</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead>
+                    <tbody>
+                    <tr th:each="source : ${sources}">
+                        <td th:text="${source.sourceName()}"></td>
+                        <td><span class="tag blue" th:text="${source.sourceType()}"></span></td>
+                        <td th:text="${source.status()}"></td>
+                        <td th:text="${source.createTime()}"></td>
+                        <td>
+                            <form th:action="@{/aggregation/sources/{id}/refresh(id=${source.id()})}" method="post">
+                                <button class="link-btn" type="submit">刷新</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-head"><h2>最近接入日志</h2></div>
+            <ul class="timeline">
+                <li th:each="log : ${logs}">
+                    <strong th:text="${log.action()}"></strong>
+                    <span th:text="${log.target()}"></span>
+                    <time th:text="${log.logTime()}"></time>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-head"><h2>最近导入批次</h2></div>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>批次</th><th>文件名</th><th>类型</th><th>业务分类</th><th>行数</th><th>字段数</th><th>导入时间</th></tr></thead>
+                <tbody>
+                <tr th:each="batch : ${batches}">
+                    <td th:text="${batch.id()}"></td>
+                    <td th:text="${batch.fileName()}"></td>
+                    <td th:text="${batch.fileType()}"></td>
+                    <td th:text="${batch.businessType()}"></td>
+                    <td th:text="${batch.rowCount()}"></td>
+                    <td th:text="${batch.fieldCount()}"></td>
+                    <td th:text="${batch.createTime()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<div class="modal" id="sourceModal" aria-hidden="true">
+    <div class="modal-panel">
+        <div class="modal-head"><h2>新增演示数据源</h2><button class="icon-btn dark" type="button" data-close-modal>×</button></div>
+        <form th:action="@{/aggregation/sources}" method="post" class="form-grid">
+            <label>数据源名称<input name="sourceName" required placeholder="例如：客户CSV文件池"></label>
+            <label>数据源类型
+                <select name="sourceType">
+                    <option>MySQL</option><option>API</option><option>Excel</option><option>CSV</option><option>Oracle</option>
+                </select>
+            </label>
+            <label class="span-2">连接信息或说明<textarea name="connInfo" rows="3" placeholder="本地演示版仅保存连接信息"></textarea></label>
+            <div class="modal-actions span-2"><button class="btn ghost" type="button" data-close-modal>取消</button><button class="btn primary" type="submit">保存</button></div>
+        </form>
+    </div>
+</div>
+
+<div class="modal" id="importModal" aria-hidden="true">
+    <div class="modal-panel wide">
+        <div class="modal-head"><h2>批量导入文件</h2><button class="icon-btn dark" type="button" data-close-modal>×</button></div>
+        <form class="form-grid" data-import-preview>
+            <label>选择文件<input type="file" name="file" accept=".csv,.xlsx,.xls" required></label>
+            <label>关联数据源
+                <select name="sourceId">
+                    <option value="">不关联</option>
+                    <option th:each="source : ${sources}" th:value="${source.id()}" th:text="${source.sourceName()}"></option>
+                </select>
+            </label>
+            <label>业务分类
+                <select name="businessType">
+                    <option th:each="type : ${businessTypes}" th:text="${type}" th:value="${type}"></option>
+                </select>
+            </label>
+            <div class="modal-actions"><button class="btn primary" type="submit">上传预览</button></div>
+        </form>
+        <div id="previewStatus" class="hint"></div>
+        <div id="previewTable" class="table-wrap preview-table"></div>
+        <div class="modal-actions">
+            <button class="btn ghost" type="button" data-close-modal>关闭</button>
+            <button class="btn primary" type="button" data-import-confirm disabled>确认入库</button>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

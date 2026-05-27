@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>忘记密码 - 多源异构数据融合平台</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="auth-page">
+<main class="auth-shell">
+    <section class="auth-panel">
+        <div class="auth-brand">
+            <span class="brand-mark">DF</span>
+            <h1>忘记密码</h1>
+            <p>联系管理员重置密码</p>
+        </div>
+        <p class="hint">V1.0 本地演示版不接入短信、邮箱或第三方认证。请联系管理员登录后进入账号维护页面重置密码。</p>
+        <a class="btn primary full" th:href="@{/login}">返回登录</a>
+    </section>
+</main>
+</body>
+</html>

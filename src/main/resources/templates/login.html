@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 多源异构数据融合平台</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body class="auth-page">
+<main class="auth-shell">
+    <section class="auth-panel">
+        <div class="auth-brand">
+            <span class="brand-mark">DF</span>
+            <h1>多源异构数据融合与统计检验分析平台V1.0</h1>
+            <p>本地演示环境</p>
+        </div>
+        <div class="alert success" th:if="${message}" th:text="${message}"></div>
+        <div class="alert error" th:if="${error}" th:text="${error}"></div>
+        <form th:action="@{/login}" method="post" class="form-stack">
+            <label>用户名
+                <input name="username" required th:value="${rememberedUsername}">
+            </label>
+            <label>密码
+                <input name="password" type="password" required th:value="${rememberedPassword}">
+            </label>
+            <label class="check-line">
+                <input type="checkbox" name="remember" value="true" th:checked="${rememberedUsername != null and !#strings.isEmpty(rememberedUsername)}">
+                <span>记住密码</span>
+            </label>
+            <button class="btn primary full" type="submit">登录</button>
+        </form>
+        <div class="auth-links">
+            <a th:href="@{/register}">注册账号</a>
+            <a th:href="@{/forgot}">忘记密码</a>
+        </div>
+        <p class="hint">默认管理员：admin / 123456</p>
+    </section>
+</main>
+</body>
+</html>

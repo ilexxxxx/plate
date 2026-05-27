@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台账查阅</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: topnav('ledger')}"></div>
+<main class="page">
+    <section class="page-head">
+        <div><h1>台账查阅</h1><p>按业务分类查看导入批次、记录数和导出文件</p></div>
+        <form th:action="@{/ledger}" method="get" class="inline-form">
+            <select name="businessType">
+                <option value="">全部分类</option>
+                <option value="用户" th:selected="${businessType == '用户'}">用户</option>
+                <option value="订单" th:selected="${businessType == '订单'}">订单</option>
+                <option value="产品" th:selected="${businessType == '产品'}">产品</option>
+                <option value="运营" th:selected="${businessType == '运营'}">运营</option>
+                <option value="客服" th:selected="${businessType == '客服'}">客服</option>
+                <option value="系统" th:selected="${businessType == '系统'}">系统</option>
+            </select>
+            <input name="keyword" placeholder="搜索文件或操作人" th:value="${keyword}">
+            <button class="btn secondary" type="submit">搜索</button>
+        </form>
+    </section>
+
+    <section class="ledger-grid">
+        <article class="ledger-card" th:each="card : ${cards}">
+            <h2 th:text="${card.businessType()}">分类</h2>
+            <p><strong th:text="${card.batchCount()}">0</strong> 批次</p>
+            <p><strong th:text="${card.recordCount()}">0</strong> 行记录</p>
+            <time th:text="${card.latestImportTime()}">-</time>
+        </article>
+    </section>
+
+    <section class="content-grid two">
+        <div class="panel">
+            <div class="panel-head"><h2>导入批次台账</h2></div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>批次</th><th>文件</th><th>分类</th><th>行数</th><th>状态</th><th>操作人</th><th>时间</th></tr></thead>
+                    <tbody>
+                    <tr th:each="batch : ${batches}">
+                        <td th:text="${batch.id()}"></td>
+                        <td th:text="${batch.fileName()}"></td>
+                        <td th:text="${batch.businessType()}"></td>
+                        <td th:text="${batch.rowCount()}"></td>
+                        <td th:text="${batch.status()}"></td>
+                        <td th:text="${batch.createUser()}"></td>
+                        <td th:text="${batch.createTime()}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="panel">
+            <div class="panel-head"><h2>导出文件</h2></div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>报告</th><th>格式</th><th>时间</th><th>下载</th></tr></thead>
+                    <tbody>
+                    <tr th:each="report : ${reports}">
+                        <td th:text="${report.reportName()}"></td>
+                        <td th:text="${report.exportFormat()}"></td>
+                        <td th:text="${report.createTime()}"></td>
+                        <td><a class="link-btn" th:href="@{/reports/download/{id}(id=${report.id()})}">下载</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账号维护</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: topnav('account')}"></div>
+<main class="page narrow">
+    <section class="page-head">
+        <div><h1>账号维护</h1><p>查看当前账号，管理员可重置本地用户密码</p></div>
+    </section>
+    <div class="alert success" th:if="${message}" th:text="${message}"></div>
+    <div class="alert error" th:if="${error}" th:text="${error}"></div>
+
+    <section class="panel">
+        <div class="panel-head"><h2>当前账号</h2></div>
+        <dl class="detail-list">
+            <div><dt>用户名</dt><dd th:text="${user.username()}"></dd></div>
+            <div><dt>角色</dt><dd th:text="${user.role()}"></dd></div>
+            <div><dt>状态</dt><dd th:text="${user.status()}"></dd></div>
+            <div><dt>创建时间</dt><dd th:text="${user.createTime()}"></dd></div>
+        </dl>
+    </section>
+
+    <section class="panel">
+        <div class="panel-head"><h2>用户列表</h2></div>
+        <p class="hint" th:if="${!user.admin()}">普通用户仅可查看账号信息，无权重置密码。</p>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>ID</th><th>用户名</th><th>角色</th><th>状态</th><th>重置密码</th></tr></thead>
+                <tbody>
+                <tr th:each="sysUser : ${users}">
+                    <td th:text="${sysUser.id()}"></td>
+                    <td th:text="${sysUser.username()}"></td>
+                    <td th:text="${sysUser.role()}"></td>
+                    <td th:text="${sysUser.status()}"></td>
+                    <td>
+                        <form th:if="${user.admin()}" th:action="@{/account/reset}" method="post" class="inline-form">
+                            <input type="hidden" name="userId" th:value="${sysUser.id()}">
+                            <input name="password" placeholder="新密码" required>
+                            <button class="btn secondary" type="submit">重置</button>
+                        </form>
+                        <span th:if="${!user.admin()}">无权限</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>核验核查</title>
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+<div th:replace="~{fragments :: topnav('quality')}"></div>
+<main class="page">
+    <section class="page-head">
+        <div><h1>核验核查</h1><p>完整性、一致性、重复性、基础准确性检查</p></div>
+        <form th:action="@{/quality}" method="get" class="inline-form">
+            <select name="batchId">
+                <option value="">最新批次</option>
+                <option th:each="batch : ${batches}" th:value="${batch.id()}" th:text="${batch.label()}" th:selected="${selectedBatchId == batch.id()}"></option>
+            </select>
+            <button class="btn secondary" type="submit">查看</button>
+        </form>
+    </section>
+    <div class="alert success" th:if="${message}" th:text="${message}"></div>
+
+    <section class="panel">
+        <div class="panel-head">
+            <h2>一键全检</h2>
+            <div class="action-row">
+                <form th:action="@{/quality/check}" method="post" class="action-form">
+                    <input type="hidden" name="batchId" th:value="${selectedBatchId}">
+                    <button class="btn primary" type="submit">执行全检</button>
+                </form>
+                <form th:action="@{/quality/report}" method="post" class="action-form">
+                    <input type="hidden" name="batchId" th:value="${selectedBatchId}">
+                    <select name="format"><option value="csv">CSV</option><option value="xlsx">Excel</option></select>
+                    <button class="btn secondary" type="submit">生成质检报告</button>
+                </form>
+            </div>
+        </div>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>检查项</th><th>说明</th><th>是否通过</th><th>问题数量</th><th>通过率</th><th>结果</th></tr></thead>
+                <tbody>
+                <tr th:each="item : ${items}">
+                    <td th:text="${item.checkType()}"></td>
+                    <td th:text="${item.description()}"></td>
+                    <td><span class="tag" th:classappend="${item.passed()} ? ' green' : ' red'" th:text="${item.passed()} ? '通过' : '未通过'"></span></td>
+                    <td th:text="${item.errorCount()}"></td>
+                    <td th:text="${item.passRate()} + '%'"></td>
+                    <td th:text="${item.result()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-head"><h2>最近导出</h2></div>
+        <div class="table-wrap">
+            <table>
+                <thead><tr><th>报告</th><th>格式</th><th>时间</th><th>下载</th></tr></thead>
+                <tbody>
+                <tr th:each="report : ${reports}">
+                    <td th:text="${report.reportName()}"></td>
+                    <td th:text="${report.exportFormat()}"></td>
+                    <td th:text="${report.createTime()}"></td>
+                    <td><a class="link-btn" th:href="@{/reports/download/{id}(id=${report.id()})}">下载</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+<script th:src="@{/js/app.js}"></script>
+</body>
+</html>
