@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 330" aria-hidden="true">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff8f0"/>
+      <stop offset="1" stop-color="#f3e0c9"/>
+    </linearGradient>
+    <filter id="s" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="8" flood-color="#a16207" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+  <rect width="520" height="330" fill="none"/>
+  <g transform="translate(115 38)" filter="url(#s)">
+    <path d="M120 6 C162 52 196 95 230 132 C250 154 278 182 322 205 C252 220 205 238 160 286 C142 236 110 208 58 190 C84 150 106 104 120 6Z" fill="url(#paper)"/>
+    <path d="M118 14 C136 88 156 143 223 205" fill="none" stroke="#f2caa4" stroke-width="9" stroke-linecap="round" opacity="0.75"/>
+    <path d="M160 286 C168 214 191 161 230 132" fill="none" stroke="#e9bd95" stroke-width="9" stroke-linecap="round" opacity="0.65"/>
+    <path d="M58 190 C124 174 186 177 322 205" fill="none" stroke="#f6d9bd" stroke-width="8" stroke-linecap="round" opacity="0.8"/>
+    <path d="M140 76 C104 108 80 142 58 190" fill="none" stroke="#fffaf5" stroke-width="7" stroke-linecap="round" opacity="0.95"/>
+    <circle cx="240" cy="120" r="11" fill="#ff7621" opacity=".22"/>
+  </g>
+</svg>

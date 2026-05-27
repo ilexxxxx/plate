@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="blue and orange 3D data columns background">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#dddddd"/>
+      <stop offset="0.55" stop-color="#d0d0d0"/>
+      <stop offset="1" stop-color="#c8c8c8"/>
+    </linearGradient>
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e7e7e7"/>
+      <stop offset="1" stop-color="#cfcfcf"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7a044"/>
+      <stop offset="1" stop-color="#ed6b19"/>
+    </linearGradient>
+    <linearGradient id="orangeSide" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#d65a14"/>
+      <stop offset="1" stop-color="#b5450b"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#43b7ed"/>
+      <stop offset="1" stop-color="#1374bf"/>
+    </linearGradient>
+    <linearGradient id="blueSide" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1174ba"/>
+      <stop offset="1" stop-color="#0d4e8f"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#6b7280" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#sky)"/>
+  <polygon points="0,585 1600,500 1600,900 0,900" fill="url(#floor)"/>
+  <g opacity="0.28" stroke="#aeb4bd" stroke-width="1">
+    <path d="M0 642 L1600 548 M0 692 L1600 606 M0 742 L1600 664 M0 792 L1600 722 M0 842 L1600 780"/>
+    <path d="M130 900 L610 520 M250 900 L720 512 M370 900 L830 504 M490 900 L940 496 M610 900 L1050 488 M730 900 L1160 480 M850 900 L1270 472 M970 900 L1380 464 M1090 900 L1490 456"/>
+  </g>
+  <g filter="url(#shadow)">
+    <g transform="translate(250 520)">
+      <rect x="0" y="-165" width="58" height="165" rx="4" fill="url(#blue)"/>
+      <polygon points="58,-165 84,-150 84,14 58,0" fill="url(#blueSide)"/>
+      <polygon points="0,-165 26,-180 84,-150 58,-165" fill="#65c7f2"/>
+    </g>
+    <g transform="translate(330 585)">
+      <rect x="0" y="-245" width="72" height="245" rx="4" fill="url(#orange)"/>
+      <polygon points="72,-245 104,-228 104,16 72,0" fill="url(#orangeSide)"/>
+      <polygon points="0,-245 32,-262 104,-228 72,-245" fill="#f8b15a"/>
+    </g>
+    <g transform="translate(450 585)">
+      <rect x="0" y="-320" width="78" height="320" rx="4" fill="url(#blue)"/>
+      <polygon points="78,-320 112,-302 112,18 78,0" fill="url(#blueSide)"/>
+      <polygon points="0,-320 34,-338 112,-302 78,-320" fill="#65c7f2"/>
+    </g>
+    <g transform="translate(600 625)">
+      <rect x="0" y="-500" width="150" height="500" rx="6" fill="url(#orange)"/>
+      <polygon points="150,-500 220,-465 220,34 150,0" fill="url(#orangeSide)"/>
+      <polygon points="0,-500 70,-535 220,-465 150,-500" fill="#f9b963"/>
+    </g>
+    <g transform="translate(815 625)">
+      <rect x="0" y="-430" width="136" height="430" rx="6" fill="url(#orange)"/>
+      <polygon points="136,-430 200,-398 200,32 136,0" fill="url(#orangeSide)"/>
+      <polygon points="0,-430 64,-462 200,-398 136,-430" fill="#f8b15a"/>
+    </g>
+    <g transform="translate(1042 650)">
+      <rect x="0" y="-340" width="118" height="340" rx="6" fill="url(#blue)"/>
+      <polygon points="118,-340 172,-312 172,28 118,0" fill="url(#blueSide)"/>
+      <polygon points="0,-340 54,-368 172,-312 118,-340" fill="#66c9f3"/>
+    </g>
+    <g transform="translate(1230 655)">
+      <rect x="0" y="-250" width="100" height="250" rx="6" fill="url(#blue)"/>
+      <polygon points="100,-250 146,-226 146,24 100,0" fill="url(#blueSide)"/>
+      <polygon points="0,-250 46,-274 146,-226 100,-250" fill="#66c9f3"/>
+    </g>
+    <g transform="translate(210 685) scale(.75)">
+      <rect x="0" y="-145" width="58" height="145" rx="4" fill="url(#orange)"/>
+      <polygon points="58,-145 84,-130 84,14 58,0" fill="url(#orangeSide)"/>
+      <polygon points="0,-145 26,-160 84,-130 58,-145" fill="#f8b15a"/>
+    </g>
+    <g transform="translate(1130 745) scale(.68)">
+      <rect x="0" y="-125" width="58" height="125" rx="4" fill="url(#blue)"/>
+      <polygon points="58,-125 84,-110 84,14 58,0" fill="url(#blueSide)"/>
+      <polygon points="0,-125 26,-140 84,-110 58,-125" fill="#66c9f3"/>
+    </g>
+  </g>
+  <rect width="1600" height="900" fill="rgba(255,255,255,0.07)"/>
+</svg>
